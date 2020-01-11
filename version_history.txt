@@ -1,0 +1,12 @@
+11-01-2020
+v0.5
+- Alfa-Bank csv export file processing
+- Store dictionaries support
+- Real purchase date extraction
+
+To be implemented in further releases:
+- Support of other export files
+- Correct sorting by date
+- Visual interface
+- Support of Gmail SMS log extraction
+- Interest calculations
