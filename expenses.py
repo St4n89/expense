@@ -2,7 +2,25 @@
 import csv
 import re
 import sys
+import os
+import datetime
+import calendar
 
+
+gettime = datetime.datetime.now()
+month_now = calendar.month_abbr[gettime.month]
+timestamp = str(str(gettime.day)+"-"+str(month_now)+"-"+str(gettime.year))
+out_filename_alfa = str("Alfabank "+timestamp+".csv")
+out_filename_citi = str("Citibank "+timestamp+".csv")
+
+if os.path.isfile('output.csv'):
+    os.remove('output.csv')
+
+if os.path.isfile(out_filename_alfa):
+    os.remove(out_filename_alfa)
+
+if os.path.isfile(out_filename_citi):
+    os.remove(out_filename_citi)
 
 def checkinput():
     if len(sys.argv) > 1:
@@ -23,45 +41,81 @@ def dictionarize(file, dictionary):
 
 
 def parsing_alfa(dictionary):
+    expenses_lines = []
+    removals = []
+
     with open('output.csv') as input_file:
         read = csv.reader(input_file, delimiter=';')
-        with open('expenses.csv','a') as output_file:
-            write = csv.writer(output_file, delimiter=';')
-            for row in read:
-                sms = row[1]
-                for word in dictionary:
-                    found = sms.count(word)
-                    if found:
-                        store = dictionary.get(word)
-                        realdate = ((re.search('[0-9][\s][0-9][0-9].[0-9][0-9].[0-9][0-9]', sms)).group(0))
-                        date = str((re.search('[0-9][0-9].[0-9][0-9].[0-9][0-9]', realdate).group(0)).replace('.', '/'))
-                        cost = int(round(float(row[2].replace(',', '.'))))
-                        write.writerow((store + " " + date, str(cost)))
-                    else:
-                        exit
-            write.writerow(' ')
+        fin_file = open(out_filename_alfa,'a')
+
+        for row in read:
+            expenses_rows = [row[0],row[1],row[2]]
+            expenses_lines.append(expenses_rows)
+
+        for str_num in range(len(expenses_lines)):
+            sms = expenses_lines[str_num][1]
+            for word in dictionary:
+                found = sms.count(word)
+                if found:
+                    store = dictionary.get(word)
+                    realdate = ((re.search('[0-9][\s][0-9][0-9].[0-9][0-9].[0-9][0-9]', sms)).group(0))
+                    expdate = str((re.search('[0-9][0-9].[0-9][0-9].[0-9][0-9]', realdate).group(0)).replace('.', '/'))
+                    cost = int(round(float(expenses_lines[str_num][2].replace(',', '.'))))
+                    fin_file.write((store+" "+expdate+";"+str(cost)+"\n"))
+                    removals.append(str_num)
+
+    removals.sort(reverse=True)
+    expenses_copy = list(expenses_lines)
+
+    for rem_str_num in range(len(removals)):
+        expenses_copy.pop(removals[rem_str_num])
+
+    os.remove('output.csv')
+    temp_file = open('output.csv','a')
+    for fin_str_num in range(len(expenses_copy)):
+        temp_file.write((expenses_copy[fin_str_num][0]+";"+expenses_copy[fin_str_num][1]+";"+expenses_copy[fin_str_num][2]+"\n"))
+
+    fin_file.write("\n")
 
 
 def parsing_citi(dictionary):
-    with open(sys.argv[1]) as input_file:
-        read = csv.reader(input_file, delimiter=',')
-        with open('expenses.csv', 'a') as output:
-            write = csv.writer(output, delimiter=';')
-            for row in reversed(list(read)):
-                sms = row[1]
-                for word in dictionary:
-                    found = sms.count(word)
-                    if found:
-                        store = dictionary.get(word)
-                        date = row[0]
-                        cost = int(round(float(row[2].replace('-', ''))))
-                        write.writerow((store + " " + date, str(cost)))
-                    else:
-                        exit
-            write.writerow(' ')
+    expenses_lines = []
+    removals = []
+
+    with open('output.csv') as input_file:
+        read = csv.reader(input_file, delimiter=';')
+        fin_file = open(out_filename_citi,'a')
+
+        for row in read:
+            expenses_rows = [row[0],row[1],row[2]]
+            expenses_lines.append(expenses_rows)
+
+        for str_num in range(len(expenses_lines)):
+            sms = expenses_lines[str_num][1]
+            for word in dictionary:
+                found = sms.count(word)
+                if found:
+                    store = dictionary.get(word)
+                    expdate = expenses_lines[str_num][0]
+                    cost = int(round(float(expenses_lines[str_num][2].replace('-', ''))))
+                    fin_file.write((store+" "+expdate+";"+str(cost)+"\n"))
+                    removals.append(str_num)
+
+    removals.sort(reverse=True)
+    expenses_copy = list(expenses_lines)
+
+    for rem_str_num in range(len(removals)):
+        expenses_copy.pop(removals[rem_str_num])
+
+    os.remove('output.csv')
+    temp_file = open('output.csv','a')
+    for fin_str_num in range(len(expenses_copy)):
+        temp_file.write((expenses_copy[fin_str_num][0]+";"+expenses_copy[fin_str_num][1]+";"+expenses_copy[fin_str_num][2]+"\n"))
+
+    fin_file.write("\n")
 
 
-def formatcsv(filename):
+def formatcsv_alfa(filename):
     with open(filename) as input_file:
         read = csv.reader(input_file, delimiter=';')
         with open('output.csv', 'w') as output:
@@ -70,6 +124,17 @@ def formatcsv(filename):
             for row in reversed(list(read)):
                 if row[7] != "0":
                     write.writerow((row[3], row[5], row[7]))
+
+
+def formatcsv_citi(filename):
+    with open(filename) as input_file:
+        read = csv.reader(input_file, delimiter=',')
+        with open('output.csv', 'w') as output:
+            write = csv.writer(output, delimiter=';')
+            for row in reversed(list(read)):
+                if float(row[2]) <= "0":
+                    write.writerow((row[0], row[1], row[2]))
+
 
 def execute(run):
     if run == 1:
@@ -82,6 +147,7 @@ def execute(run):
         cars = {}
         living = {}
         clarifications = {}
+        medicine = {}
 
         dictionarize('groceries.dic', groceries)
         dictionarize('transport.dic', transport)
@@ -90,8 +156,10 @@ def execute(run):
         dictionarize('cars.dic', cars)
         dictionarize('living.dic', living)
         dictionarize('clarifications.dic', clarifications)
+        dictionarize('medicine.dic', medicine)
 
         if bank == 'citi':
+            formatcsv_citi(sys.argv[1])
             parsing_citi(groceries)
             parsing_citi(transport)
             parsing_citi(entertainment)
@@ -99,16 +167,18 @@ def execute(run):
             parsing_citi(cars)
             parsing_citi(living)
             parsing_citi(clarifications)
+            parsing_citi(medicine)
         else:
             if bank == 'alfa':
-                formatcsv(sys.argv[1])
-                parsing_alfa(transport)
+                formatcsv_alfa(sys.argv[1])
                 parsing_alfa(groceries)
+                parsing_alfa(transport)
                 parsing_alfa(entertainment)
                 parsing_alfa(others)
                 parsing_alfa(cars)
                 parsing_alfa(living)
                 parsing_alfa(clarifications)
+                parsing_alfa(medicine)
             else:
                 print("Incorrect BANK parameter")
                 exit

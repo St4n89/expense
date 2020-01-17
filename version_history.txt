@@ -17,3 +17,4 @@ To be implemented in further releases:
 - Support of Gmail SMS log extraction
 - Interest calculations
 - Getting the list of all reported transactions
+- Database connection for storing information
