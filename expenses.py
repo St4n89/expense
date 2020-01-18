@@ -38,9 +38,6 @@ def parsing_alfa(dictionary):
     expenses_lines = []
     removals = []
 
-    if os.path.isfile(out_filename_alfa):
-        os.remove(out_filename_alfa)
-
     with open('output.csv') as input_file:
         read = csv.reader(input_file, delimiter=';')
         fin_file = open(out_filename_alfa,'a')
@@ -78,9 +75,6 @@ def parsing_alfa(dictionary):
 def parsing_citi(dictionary):
     expenses_lines = []
     removals = []
-
-    if os.path.isfile(out_filename_citi):
-        os.remove(out_filename_citi)
 
     with open('output.csv') as input_file:
         read = csv.reader(input_file, delimiter=';')
@@ -164,6 +158,9 @@ def execute(run):
         dictionarize('medicine.dic', medicine)
 
         if bank == 'citi':
+            if os.path.isfile(out_filename_citi):
+                os.remove(out_filename_citi)
+                
             formatcsv_citi(sys.argv[1])
             parsing_citi(groceries)
             parsing_citi(transport)
@@ -175,6 +172,9 @@ def execute(run):
             parsing_citi(medicine)
         else:
             if bank == 'alfa':
+                if os.path.isfile(out_filename_alfa):
+                    os.remove(out_filename_alfa)
+
                 formatcsv_alfa(sys.argv[1])
                 parsing_alfa(groceries)
                 parsing_alfa(transport)
