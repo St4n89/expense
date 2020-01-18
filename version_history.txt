@@ -24,9 +24,12 @@ v0.68
 - Added file cleanup before running the script
 - Transactions with "hold" status now processed correctly
 
-To be implemented in further releases:
+Planned features for further releases:
 - Correct sorting by date
 - Visual interface
 - Support of Gmail SMS log extraction
 - Interest calculations
 - Database connection for storing information
+
+Notes:
+- Version 0.68 was the first version to be used as "production" - the data from the reports produced by it was actually added to "Spendings 2019" and "Spendings 2020" on Google Sheets.
