@@ -17,6 +17,13 @@ v0.65
 - File contents are now processed as lists
 - Unprocessed csv entries are saved separately
 
+18-01-2020
+v0.68
+- Minor additions and fixes to dictionaries
+- Output filenames now have datestamps
+- Added file cleanup before running the script
+- Transactions with "hold" status now processed correctly
+
 To be implemented in further releases:
 - Correct sorting by date
 - Visual interface
