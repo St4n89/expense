@@ -6,7 +6,6 @@ import os
 import datetime
 import calendar
 
-
 gettime = datetime.datetime.now()
 month_now = calendar.month_abbr[gettime.month]
 timestamp = str(str(gettime.day)+"-"+str(month_now)+"-"+str(gettime.year))
@@ -16,11 +15,6 @@ out_filename_citi = str("Citibank "+timestamp+".csv")
 if os.path.isfile('output.csv'):
     os.remove('output.csv')
 
-if os.path.isfile(out_filename_alfa):
-    os.remove(out_filename_alfa)
-
-if os.path.isfile(out_filename_citi):
-    os.remove(out_filename_citi)
 
 def checkinput():
     if len(sys.argv) > 1:
@@ -43,6 +37,9 @@ def dictionarize(file, dictionary):
 def parsing_alfa(dictionary):
     expenses_lines = []
     removals = []
+
+    if os.path.isfile(out_filename_alfa):
+        os.remove(out_filename_alfa)
 
     with open('output.csv') as input_file:
         read = csv.reader(input_file, delimiter=';')
@@ -81,6 +78,9 @@ def parsing_alfa(dictionary):
 def parsing_citi(dictionary):
     expenses_lines = []
     removals = []
+
+    if os.path.isfile(out_filename_citi):
+        os.remove(out_filename_citi)
 
     with open('output.csv') as input_file:
         read = csv.reader(input_file, delimiter=';')
@@ -122,8 +122,13 @@ def formatcsv_alfa(filename):
             next(read)
             write = csv.writer(output, delimiter=';')
             for row in reversed(list(read)):
+                hold_status = row[4]
+                found_hold = hold_status.count("HOLD")
                 if row[7] != "0":
-                    write.writerow((row[3], row[5], row[7]))
+                    if found_hold:
+                        write.writerow((row[3], ("00 "+str(row[3])+" "+str(row[5])), row[7]))
+                    else:
+                        write.writerow((row[3], row[5], row[7]))
 
 
 def formatcsv_citi(filename):

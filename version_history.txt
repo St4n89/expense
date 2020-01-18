@@ -11,10 +11,15 @@ v0.6
 - Input checks and file selection
 - Added "clarifications" and "living" dictionaries
 
+17-01-2020
+v0.65
+- Added "medicine" dictionary
+- File contents are now processed as lists
+- Unprocessed csv entries are saved separately
+
 To be implemented in further releases:
 - Correct sorting by date
 - Visual interface
 - Support of Gmail SMS log extraction
 - Interest calculations
-- Getting the list of all reported transactions
 - Database connection for storing information
