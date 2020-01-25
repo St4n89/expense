@@ -25,7 +25,7 @@ v0.68
 - Transactions with "hold" status now processed correctly
 
 25-01-2020
-v0.70
+v0.71
 - Format change of output files, to correspond to new Google Sheets format
 - Added "kazan" and "restaurants" dictionaries
 - Minor additions and fixes to dictionaries
@@ -40,3 +40,4 @@ Planned features for further releases:
 
 Notes:
 - Version 0.68 was the first version to be used as "production" - the data from the reports produced by it was actually added to "Spendings 2019" on Google Sheets.
+- Version 0.71 was the first version to be used with the new Google Sheets format, developed and adopted in Jan 2020 for year 2020 and onwards.
