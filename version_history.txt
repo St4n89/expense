@@ -24,12 +24,19 @@ v0.68
 - Added file cleanup before running the script
 - Transactions with "hold" status now processed correctly
 
+25-01-2020
+v0.70
+- Format change of output files, to correspond to new Google Sheets format
+- Added "kazan" and "restaurants" dictionaries
+- Minor additions and fixes to dictionaries
+- Categories added to output files
+
 Planned features for further releases:
-- Correct sorting by date
-- Visual interface
-- Support of Gmail SMS log extraction
+- Correct sorting by date (may be done in the resulting csv file, with transactions from both banks merged)
+- Visual interface (optional, probably not needed)
+- Support of Gmail SMS log extraction (optional, probably not needed)
 - Interest calculations
 - Database connection for storing information
 
 Notes:
-- Version 0.68 was the first version to be used as "production" - the data from the reports produced by it was actually added to "Spendings 2019" and "Spendings 2020" on Google Sheets.
+- Version 0.68 was the first version to be used as "production" - the data from the reports produced by it was actually added to "Spendings 2019" on Google Sheets.
