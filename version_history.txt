@@ -26,7 +26,7 @@ v0.68
 
 25-01-2020
 v0.71
-- Format change of output files, to correspond to new Google Sheets format
+- Format change of output files, to correspond to new "Spendings" format on Google Sheets
 - Added "kazan" and "restaurants" dictionaries
 - Minor additions and fixes to dictionaries
 - Categories added to output files
@@ -40,4 +40,4 @@ Planned features for further releases:
 
 Notes:
 - Version 0.68 was the first version to be used as "production" - the data from the reports produced by it was actually added to "Spendings 2019" on Google Sheets.
-- Version 0.71 was the first version to be used with the new Google Sheets format, developed and adopted in Jan 2020 for year 2020 and onwards.
+- Version 0.71 was the first version to be used with the new "Spendings" format on Google Sheets, developed and adopted in Jan 2020 for year 2020 and onwards.
