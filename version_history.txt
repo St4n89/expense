@@ -31,7 +31,16 @@ v0.71
 - Minor additions and fixes to dictionaries
 - Categories added to output files
 
+26-01-2020
+v0.81
+- Input and bank parameter check removed, now the filenames are hardcoded, both input files are processed sequentially
+- Output from both input files flushed into one file for easier reading
+- Unknown entries from both input files flushed into one file for easier reading
+- Alfabank "zero expense" (e.g. cashback) entries now processed correctly
+- Minor additions and fixes to dictionaries
+
 Planned features for further releases:
+- Correct year modification for Alfabank entries (01/01/20 -> 01/01/2020). Currently this works only for year 2020.
 - Correct sorting by date (may be done in the resulting csv file, with transactions from both banks merged)
 - Visual interface (optional, probably not needed)
 - Support of Gmail SMS log extraction (optional, probably not needed)
